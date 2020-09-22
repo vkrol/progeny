@@ -54,7 +54,8 @@ describe('progeny', function() {
         getFixturePath('base/glob/styles2.styl')
       ];
 
-      assert.deepEqual(dependencies, paths);
+      // We have to normalize dependencies because of https://github.com/isaacs/node-glob/issues/419
+      assert.deepEqual(dependencies.map(path.normalize), paths);
       done();
     });
   });
@@ -117,7 +118,8 @@ describe('progeny.Sync', function () {
   });
 
   it('should resolve glob patterns', function () {
-    var dependencies = progeny.Sync(o)(getFixturePath('globbing.styl'));
+    // We have to normalize dependencies because of https://github.com/isaacs/node-glob/issues/419
+    var dependencies = progeny.Sync(o)(getFixturePath('globbing.styl')).map(path.normalize);
     var paths = [
       getFixturePath('base/glob/styles1.styl'),
       getFixturePath('base/glob/styles2.styl')
@@ -241,7 +243,7 @@ describe('progeny configuration', function () {
       };
 
       progeny(progenyConfig)('@require bar\na=5px\n.test\n\tborder-radius a', 'foo.styl', function (err, deps) {
-        assert.deepEqual(deps, ['bar.styl', 'bar/index.styl']);
+        assert.deepEqual(deps, ['bar.styl', path.join('bar', 'index.styl')]);
         done();
       });
     });
@@ -394,7 +396,7 @@ describe('progeny configuration', function () {
           }
         },
       })('main.less', css, function (err, deps) {
-        assert.deepEqual(deps, ['node_modules/bar.less']);
+        assert.deepEqual(deps, [path.join('node_modules', 'bar.less')]);
         done();
       });
     });
