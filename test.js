@@ -271,6 +271,37 @@ describe('progeny configuration', function () {
       });
     });
 
+    describe('Sass', function () {
+      var progenyConfig = { potentialDeps: true };
+      var expectedDeps = [
+        getFixturePath('imports/bar.scss'),
+        getFixturePath('imports/_bar.scss'),
+        getFixturePath('imports/bar.sass'),
+        getFixturePath('imports/_bar.sass'),
+      ];
+
+      it('should get normal Sass import statements', function (done) {
+        progeny(progenyConfig)(getFixturePath('imports/foo-import.scss'), function (err, deps) {
+          assert.deepEqual(deps, expectedDeps);
+          done();
+        });
+      });
+
+      it('should get normal Sass use statements', function (done) {
+        progeny(progenyConfig)(getFixturePath('imports/foo-use.scss'), function (err, deps) {
+          assert.deepEqual(deps, expectedDeps);
+          done();
+        });
+      });
+
+      it('should get normal Sass forward statements', function (done) {
+        progeny(progenyConfig)(getFixturePath('imports/foo-forward.scss'), function (err, deps) {
+          assert.deepEqual(deps, expectedDeps);
+          done();
+        });
+      });
+    });
+
     describe('LESS', function () {
       it('should get normal LESS import statements', function (done) {
         var progenyConfig = { potentialDeps: true };

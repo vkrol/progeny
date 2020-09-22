@@ -35,12 +35,12 @@ function defaultSettings(extName) {
     case 'sass':
     case 'scss':
       return {
-        regexp: /^\s*@import\s*['"]?([^'"]+)['"]?/,
+        regexp: /^\s*@(?:import|use|forward)\s*['"]?([^'"]+)['"]?/,
         prefix: '_',
         exclusion: /^compass/,
         extensionsList: ['scss', 'sass'],
         multipass: [
-          /@import[^;]+;/g,
+          /@(?:import|use|forward)[^;]+;/g,
           /\s*['"][^'"]+['"]\s*,?/g,
           /(?:['"])([^'"]+)/
         ]
