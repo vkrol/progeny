@@ -38,6 +38,7 @@ function defaultSettings(extName) {
         regexp: /^\s*@import\s*['"]?([^'"]+)['"]?/,
         prefix: '_',
         exclusion: /^compass/,
+        moduleDep: true,
         extensionsList: ['scss', 'sass'],
         multipass: [
           /@import[^;]+;/g,
